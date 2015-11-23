@@ -15,6 +15,23 @@ FlowRouter.subscriptions = ->
 FlowRouter.route '/',
 	name: 'index'
 
+	triggersEnter: [ (context, redirect) ->
+		console.log '--------------------------------------------------'
+		console.log 'Rocket chat router: Received request for route \'/\'. Query params: ', context.queryParams
+		if context.queryParams and context.queryParams.token
+			Meteor.loginWithToken context.queryParams.token, (error) ->
+				if error
+				  console.log 'Invalid token. Error: ', error.message
+				else
+				  console.log 'Valid token. Logged in!'
+				console.log '--------------------------------------------------'
+				return
+		else
+			console.log 'No token received.'
+			console.log '--------------------------------------------------'
+		return
+	]
+
 	action: ->
 		BlazeLayout.render 'main', {center: 'loading'}
 		if not Meteor.userId()
