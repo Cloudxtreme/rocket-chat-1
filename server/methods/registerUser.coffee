@@ -3,6 +3,7 @@ Meteor.methods
 		userData =
 			email: formData.email
 			password: formData.pass
+			username: formData.username
 
 		userId = Accounts.createUser userData
 
